@@ -4,8 +4,6 @@ const hbs = require('hbs');
 const sqlite = require('sqlite3');
 const session = require('express-session');
 const crypto = require('crypto');
-const async = require('hbs/lib/async');
-const res = require('express/lib/response');
 // try {
 //     const crypto = require('crypto');
 // } catch (err) {
@@ -19,6 +17,9 @@ app.use(session({
     secret: 'keyboard cat',
     saveUninitialized: true,
     resave: true,
+    user:{
+        reg:false
+    }
 }));
 
 hbs.registerPartials(__dirname + "/templates/partials");
@@ -27,7 +28,8 @@ hbs.registerPartials(__dirname + "/templates/partials");
 async function getDbData(typeQ, dataQ) {
     let typeQueryes = {
         "all": "SELECT * FROM users",
-        "search": "SELECT * FROM users WHERE name=?"
+        "search": "SELECT * FROM users WHERE name=?",
+        "id": "SELECT * FROM users WHERE id=?"
     };
     let sqlQuery = typeQueryes[typeQ];
     let db = new sqlite.Database("shopbd.db");
@@ -54,6 +56,24 @@ async function addDbData(dataQ) {
             }
         }
         )
+    });
+    let datadb = await prom;
+    db.close();
+    return datadb;
+}
+
+async function updateDbData(dataQ) {
+    let sqlQuery = "UPDATE users SET password=? ,  secret=?, userHash=?  WHERE id=?";
+    let db = new sqlite.Database("shopbd.db");
+    let prom = new Promise((res, rej) => {
+        db.run(sqlQuery, dataQ, (err) => {
+            if (err) {
+                console.log(err);
+                rej(false);
+            } else {
+                res(true)
+            }
+        });
     });
     let datadb = await prom;
     db.close();
@@ -93,16 +113,16 @@ async function makeHash(text, secret) {
 
 app.get("/", function (req, res) {
     if (req.session.user != undefined) {
-        getDbData("all",[]).then((data)=>{
-            let tempData={
-                "colums":Object.keys(data[0]),
-                "rows":data
+        getDbData("all", []).then((data) => {
+            let tempData = {
+                "colums": Object.keys(data[0]),
+                "rows": data
             };
-            res.render('index.hbs',tempData);
-        });  
+            res.render('index.hbs', tempData);
+        });
     } else {
         req.session.user = {
-            reg:false
+            reg: false
         }
         res.render('login.hbs', req.session.user);
     }
@@ -126,8 +146,8 @@ app.get("/", function (req, res) {
     // });
 });
 
-app.get("/login",(req,res)=>{
-    res.render("login.hbs",req.session.user);
+app.get("/login", (req, res) => {
+    res.render("login.hbs", req.session.user);
 });
 
 app.get("/favicon.ico", (req, res) => {
@@ -140,22 +160,21 @@ app.get("/log", function (req, res) {
     getDbData("search", userLogin).then((data) => {
         if (data.length != 0) {
             let textToHash = userLogin + ":" + userPassword;
-                makeHash(textToHash, data[0].secret).then((userHash) =>{
-                    if (userHash == data[0].userHash) {
-                        var tempData = {
-                            "colums": Object.keys(data[0]),
-                            "rows": data
-                        };
-                        res.render('index.hbs', tempData);
-                        req.session.user = data[0];
-                    } else {
-                        res.send("Incorrect password!")
-                    }
-                    // console.log(userData);
-                })
+            makeHash(textToHash, data[0].secret).then((userHash) => {
+                if (userHash == data[0].userHash) {
+                    var tempData = {
+                        "colums": Object.keys(data[0]),
+                        "rows": data
+                    };
+                    res.render('index.hbs', tempData);
+                    req.session.user = data[0];
+                } else {
+                    res.send("Incorrect password!");
+                }
+            })
         } else {
             req.session.user = {
-                reg: true 
+                reg: true
             };
             res.render('login.hbs', req.session.user);
         }
@@ -175,7 +194,7 @@ app.get("/reg", function (req, res) {
             makeSecret().then((secret) => {
                 userData.push(secret);
                 let textToHash = userLogin + ":" + userPassword;
-                makeHash(textToHash, secret).then((userHash) =>{
+                makeHash(textToHash, secret).then((userHash) => {
                     userData.push(userHash);
                     addDbData(userData).then((data) => {
                         if (data) {
@@ -188,6 +207,44 @@ app.get("/reg", function (req, res) {
             })
         }
     })
+});
+
+app.get("/forgot", (req, res) => {
+    let userData = [];
+    let userPassword = req.query.pswrd;
+    if (req.session.user != undefined){
+        if (req.session.user.id != req.query.id ) {
+            res.sendStatus(403);
+        } else {    
+            getDbData("id", req.query.id).then((data) => {
+                if (data.length != 0) {
+                    userData.push(userPassword);
+                    makeSecret().then((secret) => {
+                        userData.push(secret);
+                        let textToHash = data[0].name + ":" + userPassword;
+                        makeHash(textToHash, secret).then((userHash) => {
+                            userData.push(userHash);
+                            userData.push(data[0].id);
+                            updateDbData(userData).then((result) => {
+                                if (result) {
+                                    req.session.user.secret = secret;
+                                    req.session.user.userHash = userHash;
+                                    req.session.user.password = userPassword;
+                                    res.send(`${data[0].name}: password changed.`)
+                                } else {
+                                    res.sendStatus(500)
+                                }
+                            })
+                        })
+                    })
+                } else {
+                    res.sendStatus(400);
+                }
+            });
+        };
+    }else{
+        res.sendStatus(401);
+    }
 });
 
 app.use((req, res, next) => {
