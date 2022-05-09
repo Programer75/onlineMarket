@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{#if reg}}
+    <title>Log in</title>
+    {{else}}
+    <title>Log in</title>
+    {{/if}}
+</head>
+
+<body>
+    {{#if reg}}
+    <form action="/reg" method="get">
+        <input type="text" name="lgn" placeholder="Enter your name...">
+        <input type="password" name="pswrd" id="" placeholder="Enter password...">
+        <button type="submit">Reg</button>
+    </form>
+    {{else}}
+    <form action="/log" method="get">
+        <input type="text" name="lgn" placeholder="Enter your name...">
+        <input type="password" name="pswrd" id="" placeholder="Enter password...">
+        <button type="submit">Log in</button>
+    </form>
+    {{/if}}
+</body>
+
+</html>

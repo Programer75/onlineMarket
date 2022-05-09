@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "hbs": "^4.2.0",
+    "sqlite3": "^5.0.2"
+  }
+}

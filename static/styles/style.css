@@ -1,0 +1,90 @@
+body {
+  margin: 0px;
+  font-family: 'Calibri';
+}
+header .sidebar {
+  background-color: #191414;
+  width: 20%;
+  height: 100vh;
+  float: left;
+}
+header .sidebar nav ul {
+  list-style-type: none;
+}
+header .sidebar nav ul li {
+  width: 175px;
+  height: 30px;
+  border-radius: 10px;
+  line-height: 31px;
+  color: grey;
+}
+header .sidebar nav ul li span {
+  line-height: 25px;
+}
+header .sidebar nav ul li ion-icon {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+header .sidebar nav ul li #balance {
+  background-color: #d66eda;
+  color: white;
+  border-radius: 25px;
+  padding: 3px;
+  margin-left: 5px;
+}
+header .sidebar nav ul li:not(:last-child) {
+  margin-bottom: 15px;
+}
+header .sidebar nav .category .submenu {
+  -webkit-transform: scaleY(0);
+  -ms-transform: scaleY(0);
+  transform: scaleY(0);
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  background: #FFAB51;
+}
+header .sidebar nav .category .category:hover .submenu {
+  -webkit-transform: scaleY(1);
+  -ms-transform: scaleY(1);
+  transform: scaleY(1);
+}
+header .sidebar nav .category ul a {
+  color: #9B4222;
+}
+header .sidebar .btn-go-toshop {
+  width: 125px;
+  height: 50px;
+  line-height: 50px;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+header .sidebar #gotocatalog {
+  width: 125px;
+  height: 35px;
+  border-radius: 25px;
+  background-color: #d66eda;
+  border-color: #d66eda;
+  color: white;
+  margin: auto;
+}
+header .top-menu {
+  width: 80%;
+  height: 10vh;
+  float: left;
+  display: flex;
+  justify-content: space-between;
+}
+header .top-menu .search,
+header .top-menu .account {
+  float: left;
+  line-height: 10vh;
+}
+header .top-menu .account-info,
+header .top-menu .options {
+  float: left;
+}
+header .top-menu .account-info {
+  width: 150px;
+}

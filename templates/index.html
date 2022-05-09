@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="../static/scripts/header.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="sidebar">
+            <div class="btn-go-toshop">
+                <input id="gotocatalog" type="button" value="Go to catalog">
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <ion-icon name="person-outline"></ion-icon>
+                        <span>Profile</span>
+                    </li>
+                    <li>
+                        <ion-icon name="search-sharp"></ion-icon>
+                        <span>Search</span>
+                    </li>
+                    <li>
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <span>Favorites</span>
+                    </li>
+                    <li>
+                        <ion-icon name="wallet-sharp"></ion-icon>
+                        <span>Balance</span>
+                        <span id="balance">190000$</span>
+                    </li>
+                </ul>
+                <div class="category">
+                    <h2 class="category">Category</h2>
+                    <ul class="submenu">
+                        <li><a href="#">Most popular</a></li>
+                        <li><a href="#">New</a></li>
+                        <li><a href="#">Coming soon</a></li>
+                        <li><a href="#">Discounts</a></li>
+                        <li><a href="#">With gamepad</a></li>
+                    </ul>
+                    <!-- <select name="" id="filter" aria-placeholder="Select a category">
+                    <option value="popular"></option>
+                    <option value="new"></option>
+                        <option value="later"></option>
+                        <option value="discounts"></option>
+                        <option value="gamepad"></option>
+                    </select> -->
+                </div>
+            </nav>
+        </div>
+        <div class="top-menu">
+            <div class="search">
+                <input type="search" name="" id="">
+                <button id="btnfind">
+                    <ion-icon class="icon" name="search"></ion-icon>
+                </button>
+            </div>
+            <div class="account">
+                <div class="account-info">
+                    <span>Ivan Ivanov</span>
+                    <img src="" alt="" class="account-ava">
+                </div>
+                <div class="options">
+                    <ion-icon name="notifications"></ion-icon>
+                    <ion-icon name="bag-handle"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main></main>
+    <footer></footer>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
