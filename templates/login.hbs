@@ -14,13 +14,13 @@
 
 <body>
     {{#if reg}}
-    <form action="/reg" method="get">
+    <form action="/reg" method="post">
         <input type="text" name="lgn" placeholder="Enter your name...">
         <input type="password" name="pswrd" id="" placeholder="Enter password...">
         <button type="submit">Reg</button>
     </form>
     {{else}}
-    <form action="/log" method="get">
+    <form action="/log" method="post">
         <input type="text" name="lgn" placeholder="Enter your name...">
         <input type="password" name="pswrd" id="" placeholder="Enter password...">
         <button type="submit">Log in</button>
